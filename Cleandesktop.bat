@@ -26,3 +26,20 @@ REM ***Cleaning desktop by deleting excel, word and ppt files***
 del %SP%\*.xlsx
 del %SP%\*.ppt
 del %SP%\*.docx
+
+REM ***Count Variable ***
+set n=0
+
+for %%A in (%XLSX_Path%\*.xlsx) do (
+    Set array[!n!]=%%~nA
+    Set /a n=n+1
+)
+
+REM ***To count how many excel files exist in Excel directory***
+Set xlsx_number=0
+for %%f in (%XLSX_Path%\*.xlsx) do (
+    if exist %%f (set /a xlsx_number=xlsx_number+1)
+)
+for /l %%n in (0,%xlsx_number%,1) do (
+    echo !array[%%n]!
+)
