@@ -4,29 +4,39 @@ Set SP=%USERPROFILE%\Desktop
 
 cd %SP%
 REM ***Making directory for Backup files on desktop***
+if exist %SP%\BackUp goto mk_dir
 mkdir %SP%\BackUp
 
+:mk_dir
 Set BackUp=%SP%\BackUp
+Set PATH_LOG=%BackUp%\%COMPUTERNAME%_%date%.log
 
+if exist %BackUp%\PPT goto copy_files 
 REM ***Making directory ***
 mkdir %BackUp%\PPT
 mkdir %BackUp%\Excel
 mkdir %BackUp%\Word
+mkdir %BackUp%\Text
 
+:copy_files
 REM ***Making Path Variable***
 Set PPT_Path=%BackUp%\PPT
 Set XLSX_Path=%BackUp%\Excel
 Set DOC_Path=%BackUp%\Word
+Set Text_Path=%BackUp%\Text
 
 REM ***Copy files as excel,word and ppts***
-COPY %SP%\*.xlsx %XLSX_Path%
-COPY %SP%\*.ppt %PPT_Path%
-COPY %SP%\*.docx %DOC_Path%
+COPY %SP%\*.xlsx %XLSX_Path% >>%PATH_LOG
+COPY %SP%\*.ppt %PPT_Path% >>%PATH_LOG
+COPY %SP%\*.docx %DOC_Path% >>%PATH_LOG
+COPY %SP%\*.txt %Text_Path% >>%PATH_LOG
 
 REM ***Cleaning desktop by deleting excel, word and ppt files***
-del %SP%\*.xlsx
-del %SP%\*.ppt
-del %SP%\*.docx
+del %SP%\*.xlsx >>%PATH_LOG
+del %SP%\*.ppt >>%PATH_LOG
+del %SP%\*.docx >>%PATH_LOG
+del %SP%\*.txt >>%PATH_LOG
+
 
 REM ***Count Variable ***
 set n=0
