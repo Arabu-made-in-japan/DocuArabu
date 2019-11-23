@@ -1,3 +1,4 @@
+@echo off
 @SETLOCAL enabledelayedexpansion
 Set SP=%USERPROFILE%\Desktop
 
@@ -30,16 +31,20 @@ del %SP%\*.docx
 REM ***Count Variable ***
 set n=0
 
+REM ***Setting xlsx files to array***
 for %%A in (%XLSX_Path%\*.xlsx) do (
     Set array[!n!]=%%~nA
     Set /a n=n+1
 )
 
 REM ***To count how many excel files exist in Excel directory***
-Set xlsx_number=0
+REM ***Q.Why xlsx_number starts at -1?***
+REM ***That's why roop process ends proper point.***
+Set xlsx_number=-1
 for %%f in (%XLSX_Path%\*.xlsx) do (
     if exist %%f (set /a xlsx_number=xlsx_number+1)
 )
-for /l %%n in (0,%xlsx_number%,1) do (
+REM ***TO check what files array is contained***
+for /l %%n in (0,1,%xlsx_number%) do (
     echo !array[%%n]!
 )
